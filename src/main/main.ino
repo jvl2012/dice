@@ -1,14 +1,14 @@
 #include <LiquidCrystal.h>
 #include <GyverButton.h>
-// initialize the library with the numbers of the interface pins
+#include "Dice.h"
+
 LiquidCrystal lcd(12, 11, 9, 8, 7, 6);
 GButton butt1(13);
 boolean isPress = false;
-
-int cube = 0;
+Dice cube (6);
 
 void setup() {
-  buttonSetup();
+  button1Setup();
   lcd.begin(16, 2);
   lcd.clear();
 
@@ -18,8 +18,7 @@ void setup() {
   lcd.setCursor(1, 0);
 }
 
-void buttonSetup() {
-  Serial.begin(9600);
+void button1Setup() {
   butt1.setTickMode(AUTO);
   butt1.setDebounce(50);
   butt1.setTimeout(300);
@@ -37,8 +36,8 @@ void loop() {
   if (butt1.isRelease()) {
     isPress = false;
     lcd.clear();
-    cube = random(1, 7);
-    lcd.print("Score:");
-    lcd.print(cube);
+    cube.doThrow();
+    lcd.print("Score: ");
+    lcd.print(cube.getValue());
   }
 }
